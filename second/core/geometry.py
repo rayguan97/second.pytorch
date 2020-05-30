@@ -2,7 +2,7 @@ import numpy as np
 import numba
 
 
-@numba.njit
+# @numba.njit
 def is_line_segment_intersection_jit(lines1, lines2):
     """check if line segments1 and line segments2 have cross point
     
@@ -33,7 +33,7 @@ def is_line_segment_intersection_jit(lines1, lines2):
                     ret[i, j] = True
     return ret
 
-@numba.njit
+#@numba.njit
 def line_segment_intersection(line1, line2, intersection):
     A = line1[0]
     B = line1[1]
@@ -81,7 +81,7 @@ def is_line_segment_cross(lines1, lines2):
         _ccw(A, B, C) != _ccw(A, B, D))
 
 
-@numba.jit(nopython=False)
+#@numba.jit(nopython=False)
 def surface_equ_3d_jit(polygon_surfaces):
     # return [a, b, c], d in ax+by+cz+d=0
     # polygon_surfaces: [num_polygon, num_surfaces, num_points_of_polygon, 3]
@@ -94,7 +94,7 @@ def surface_equ_3d_jit(polygon_surfaces):
     return normal_vec, -d
 
 
-@numba.jit(nopython=False)
+#@numba.jit(nopython=False)
 def points_in_convex_polygon_3d_jit(points,
                                     polygon_surfaces,
                                     num_surfaces=None):
@@ -134,7 +134,7 @@ def points_in_convex_polygon_3d_jit(points,
     return ret
 
 
-@numba.jit
+#@numba.jit
 def points_in_convex_polygon_jit(points, polygon, clockwise=True):
     """check points is in 2d convex polygons. True when point in polygon
     Args:

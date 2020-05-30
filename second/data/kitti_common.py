@@ -135,10 +135,10 @@ def get_kitti_image_info(path,
     root_path = pathlib.Path(path)
     if not isinstance(image_ids, list):
         image_ids = list(range(image_ids))
-
     def map_func(idx):
         image_info = {'image_idx': idx, 'pointcloud_num_features': 4}
         annotations = None
+        print('kitti info:', image_ids.index(int(idx)), '/', len(image_ids))
         if velodyne:
             image_info['velodyne_path'] = get_velodyne_path(
                 idx, path, training, relative_path)

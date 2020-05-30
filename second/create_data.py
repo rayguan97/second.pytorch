@@ -26,7 +26,10 @@ def _read_imageset_file(path):
 
 
 def _calculate_num_points_in_gt(data_path, infos, relative_path, remove_outside=True, num_features=4):
+    countt = 0
     for info in infos:
+        print('calculate num points:', countt, '/', len(infos))
+        countt += 1
         if relative_path:
             v_path = str(pathlib.Path(data_path) / info["velodyne_path"])
         else:
@@ -80,6 +83,7 @@ def create_kitti_info_file(data_path,
         calib=True,
         image_ids=train_img_ids,
         relative_path=relative_path)
+    print('calculating num points...')
     _calculate_num_points_in_gt(data_path, kitti_infos_train, relative_path)
     filename = save_path / 'kitti_infos_train.pkl'
     print(f"Kitti info train file is saved to {filename}")
@@ -92,6 +96,7 @@ def create_kitti_info_file(data_path,
         calib=True,
         image_ids=val_img_ids,
         relative_path=relative_path)
+    print('calculating num points...')
     _calculate_num_points_in_gt(data_path, kitti_infos_val, relative_path)
     filename = save_path / 'kitti_infos_val.pkl'
     print(f"Kitti info val file is saved to {filename}")
@@ -115,7 +120,6 @@ def create_kitti_info_file(data_path,
     print(f"Kitti info trainval file is saved to {filename}")
     with open(filename, 'wb') as f:
         pickle.dump(kitti_infos_train + kitti_infos_val, f)
-
     kitti_infos_test = kitti.get_kitti_image_info(
         data_path,
         training=False,
@@ -128,7 +132,7 @@ def create_kitti_info_file(data_path,
     print(f"Kitti info test file is saved to {filename}")
     with open(filename, 'wb') as f:
         pickle.dump(kitti_infos_test, f)
-
+    print("finish Processing!")
 
 def _create_reduced_point_cloud(data_path,
                                 info_path,
@@ -178,10 +182,13 @@ def create_reduced_point_cloud(data_path,
         val_info_path = pathlib.Path(data_path) / 'kitti_infos_val.pkl'
     if test_info_path is None:
         test_info_path = pathlib.Path(data_path) / 'kitti_infos_test.pkl'
-
+    print("start train set...")
     _create_reduced_point_cloud(data_path, train_info_path, save_path)
+    print("start val set...")
     _create_reduced_point_cloud(data_path, val_info_path, save_path)
+    print("start test set...")
     _create_reduced_point_cloud(data_path, test_info_path, save_path)
+    print("Done!")
     if with_back:
         _create_reduced_point_cloud(
             data_path, train_info_path, save_path, back=True)
@@ -294,10 +301,10 @@ def create_groundtruth_database(data_path,
                 all_db_infos[names[i]].append(db_info)
     for k, v in all_db_infos.items():
         print(f"load {len(v)} {k} database infos")
-
+    print("prepare to dump file...")
     with open(db_info_save_path, 'wb') as f:
         pickle.dump(all_db_infos, f)
-
+    print("Done!")
 
 if __name__ == '__main__':
     fire.Fire()
