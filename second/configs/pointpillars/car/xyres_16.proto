@@ -140,8 +140,8 @@ train_input_reader: {
 
   remove_unknown_examples: false
   remove_environment: false
-  kitti_info_path: "/data/sets/kitti_second/kitti_infos_train.pkl"
-  kitti_root_path: "/data/sets/kitti_second"
+  kitti_info_path: "../kitti/kitti_infos_train.pkl"
+  kitti_root_path: "../kitti/"
 }
 
 train_config: {
@@ -183,5 +183,5 @@ eval_input_reader: {
   anchor_area_threshold: 1
   remove_environment: false
   kitti_info_path: "../kitti/kitti_infos_val.pkl"
-  kitti_root_path: "../kitti/kitti_second"
+  kitti_root_path: "../kitti/"
 }
